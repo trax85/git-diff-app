@@ -1,19 +1,30 @@
 import './App.css';
 import CustomDropdown from './Components/CustomDropdown';
 import CustomAccordian from './Components/CustomAccordian';
+import axios from 'axios';
+
+const apiUrl = 'http://127.0.0.1:5000/api/';
 
 function App() {
-  const dropdown1Items = ['Action 1', 'Action 2', 'Action 3'];
-  const dropdown2Items = ['Option 1', 'Option 2', 'Option 3'];
+  
+  const fetchBranches = async () => {
+    try {
+      const response = await axios.get(apiUrl + 'getBranches');
+      console.log(response.data);
+      return response.data.branches;
+    } catch (error) {
+      console.error('Error fetching options:', error);
+      return [];
+    }
+  };
 
   return (
     <div className="App">
       
-      <CustomDropdown title="First Dropdown" items={dropdown1Items} variant="success" />
+      <CustomDropdown title="First Dropdown" fetchOptions={fetchBranches} />
 
-      {/* Second Custom Dropdown */}
-      <CustomDropdown title="Second Dropdown" items={dropdown2Items} variant="primary" />
-
+      <CustomAccordian title="Hello world" description = "This is a sample description"></CustomAccordian>
+      <CustomAccordian title="Hello world" description = "This is a sample description"></CustomAccordian>
       <CustomAccordian title="Hello world" description = "This is a sample description"></CustomAccordian>
     </div>
   );
